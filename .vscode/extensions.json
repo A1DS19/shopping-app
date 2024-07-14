@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "ms-vscode.vscode-typescript-next",
+    "esbenp.prettier-vscode",
+    "streetsidesoftware.code-spell-checker",
+    "Prisma.prisma",
+    "ambar.bundle-size",
+    "usernamehw.errorlens"
+  ]
+}
