@@ -5,6 +5,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
 import authenticated from '@/actions/auth/authenticated'
+import logout from '@/actions/auth/logout'
 import { Header } from '@/components/header'
 import { Providers } from '@/components/providers'
 import { ComponentWithChildren } from '@/types/ComponentWithChildren'
@@ -23,7 +24,7 @@ export default async function RootLayout({ children }: ComponentWithChildren) {
     <html lang='en'>
       <body className={inter.className}>
         <Providers authenticated={isAuthenticated}>
-          <Header />
+          <Header logout={logout} />
           <Container>{children}</Container>
         </Providers>
       </body>

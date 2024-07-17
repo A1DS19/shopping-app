@@ -4,6 +4,7 @@ import { jwtDecode } from 'jwt-decode'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
+import { AUTHENTICATION } from '@/constants/cookie-names'
 import { env } from '@/constants/env'
 import { FormError } from '@/types/form-error'
 import { getErrorMessage } from '@/utils/errors'
@@ -38,7 +39,7 @@ const setAuthCookie = (res: Response) => {
   if (setCookieHeader) {
     const token = setCookieHeader.split(';')[0].split('=')[1]
     cookies().set({
-      name: 'Authentication',
+      name: AUTHENTICATION,
       value: token,
       secure: env.NODE_ENV === 'production',
       httpOnly: true,

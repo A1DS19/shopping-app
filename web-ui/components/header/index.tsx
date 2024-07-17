@@ -11,6 +11,8 @@ import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { MouseEvent, useContext, useState } from 'react'
 
 import { routes, unAuthenticatedRoutes } from '@/constants/routes'
@@ -18,10 +20,15 @@ import { AuthContext } from '@/context/auth'
 
 import { Settings } from './settings'
 
-export function Header() {
+interface IHeaderProps {
+  logout: () => void
+}
+
+export function Header({ logout }: IHeaderProps) {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null)
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
   const isAuthenticated = useContext(AuthContext)
+  const router = useRouter()
 
   const pages = isAuthenticated ? routes : unAuthenticatedRoutes
 
@@ -48,8 +55,8 @@ export function Header() {
           <Typography
             variant='h6'
             noWrap
-            component='a'
-            href='#app-bar-with-responsive-menu'
+            component={Link}
+            href='/'
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -93,7 +100,13 @@ export function Header() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page.path} onClick={handleCloseNavMenu}>
+                <MenuItem
+                  key={page.path}
+                  onClick={() => {
+                    handleCloseNavMenu()
+                    router.push(page.path)
+                  }}
+                >
                   <Typography textAlign='center'>{page.title}</Typography>
                 </MenuItem>
               ))}
@@ -103,8 +116,8 @@ export function Header() {
           <Typography
             variant='h5'
             noWrap
-            component='a'
-            href='#app-bar-with-responsive-menu'
+            component={Link}
+            href='/'
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -120,7 +133,14 @@ export function Header() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
-              <Button key={page.path} onClick={handleCloseNavMenu} sx={{ my: 2, color: 'white', display: 'block' }}>
+              <Button
+                key={page.path}
+                onClick={() => {
+                  handleCloseNavMenu()
+                  router.push(page.path)
+                }}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
                 {page.title}
               </Button>
             ))}
@@ -131,6 +151,7 @@ export function Header() {
               anchorElUser={anchorElUser}
               handleCloseUserMenu={handleCloseUserMenu}
               handleOpenUserMenu={handleOpenUserMenu}
+              logout={logout}
             />
           )}
         </Toolbar>

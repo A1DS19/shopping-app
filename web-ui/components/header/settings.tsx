@@ -4,9 +4,10 @@ interface ISettingsProps {
   handleOpenUserMenu: (event: React.MouseEvent<HTMLElement>) => void
   handleCloseUserMenu: () => void
   anchorElUser: null | HTMLElement
+  logout: () => void
 }
 
-export function Settings({ handleOpenUserMenu, handleCloseUserMenu, anchorElUser }: ISettingsProps) {
+export function Settings({ handleOpenUserMenu, handleCloseUserMenu, anchorElUser, logout }: ISettingsProps) {
   return (
     <Box sx={{ flexGrow: 0 }}>
       <Tooltip title='Open settings'>
@@ -30,7 +31,12 @@ export function Settings({ handleOpenUserMenu, handleCloseUserMenu, anchorElUser
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
-        <MenuItem onClick={handleCloseUserMenu}>
+        <MenuItem
+          onClick={() => {
+            handleCloseUserMenu()
+            logout()
+          }}
+        >
           <Typography textAlign='center'>Logout</Typography>
         </MenuItem>
       </Menu>

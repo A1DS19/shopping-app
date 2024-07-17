@@ -1,15 +1,16 @@
 import { NextRequest } from 'next/server'
 
-const unAuthenticatedRoutes = ['/auth/login', '/auth/signup']
+import authenticated from './actions/auth/authenticated'
+import { unAuthenticatedRoutes } from './constants/routes'
 
 export function middleware(req: NextRequest) {
-  const auth = req.cookies.get('Authentication')?.value
+  const auth = authenticated()
 
-  if (!auth && !unAuthenticatedRoutes.some((route) => req.nextUrl.pathname.startsWith(route))) {
+  if (!auth && !unAuthenticatedRoutes.some((route) => req.nextUrl.pathname.startsWith(route.path))) {
     return Response.redirect(new URL('/auth/login', req.url))
   }
 
-  if (auth && unAuthenticatedRoutes.some((route) => req.nextUrl.pathname.startsWith(route))) {
+  if (auth && unAuthenticatedRoutes.some((route) => req.nextUrl.pathname.startsWith(route.path))) {
     return Response.redirect(new URL('/', req.url))
   }
 }

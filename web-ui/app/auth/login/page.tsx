@@ -4,7 +4,7 @@ import { Button, Link, Stack, TextField } from '@mui/material'
 import NextLink from 'next/link'
 import { useFormState } from 'react-dom'
 
-import login from '@/actions/users/login'
+import login from '@/actions/auth/login'
 
 export default function Login() {
   const [state, formAction] = useFormState(login, { error: '' })
