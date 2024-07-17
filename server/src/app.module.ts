@@ -5,6 +5,7 @@ import { LoggerModule } from 'nestjs-pino';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { ENV } from './utils/ENV';
+import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { ENV } from './utils/ENV';
       inject: [ConfigService],
     }),
     AuthModule,
+    ProductsModule,
   ],
   controllers: [],
   providers: [],

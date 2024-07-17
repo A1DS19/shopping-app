@@ -6,10 +6,10 @@ import { redirect } from 'next/navigation'
 
 import { AUTHENTICATION } from '@/constants/cookie-names'
 import { env } from '@/constants/env'
-import { FormError } from '@/types/form-error'
+import { FormResponse } from '@/types/form-response'
 import { getErrorMessage } from '@/utils/errors'
 
-export default async function login(_prevState: FormError, formData: FormData) {
+export default async function login(_prevState: FormResponse, formData: FormData) {
   const response = await fetch(`${env.API_URL}/auth/login`, {
     method: 'POST',
     body: JSON.stringify(Object.fromEntries(formData)),
