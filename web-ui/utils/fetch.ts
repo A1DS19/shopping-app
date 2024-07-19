@@ -4,14 +4,15 @@ import { env } from '@/constants/env'
 
 import { getErrorMessage } from './errors'
 
-const getHeaders = () => ({
+export const getHeaders = () => ({
   Cookie: cookies().toString()
 })
 
-export const post = async (path: string, formData: FormData) => {
+export const post = async (path: string, data: FormData | object) => {
+  const body = data instanceof FormData ? Object.fromEntries(data) : data
   const response = await fetch(`${env.API_URL}/${path}`, {
     method: 'POST',
-    body: JSON.stringify(Object.fromEntries(formData)),
+    body: JSON.stringify(body),
     headers: {
       'Content-Type': 'application/json',
       ...getHeaders()
@@ -24,15 +25,18 @@ export const post = async (path: string, formData: FormData) => {
     return { error: getErrorMessage(parsedRes) }
   }
 
-  return { error: '' }
+  return { error: '', data: parsedRes }
 }
 
-export const get = async (path: string) => {
+export const get = async <T>(path: string, tags?: string[]) => {
   const response = await fetch(`${env.API_URL}/${path}`, {
     headers: {
       ...getHeaders()
+    },
+    next: {
+      tags: tags
     }
   })
 
-  return await response.json()
+  return (await response.json()) as T
 }

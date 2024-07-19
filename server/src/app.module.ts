@@ -1,11 +1,14 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ServeStaticModule } from '@nestjs/serve-static';
 import { LoggerModule } from 'nestjs-pino';
+import { join } from 'path';
 
 import { AuthModule } from './auth/auth.module';
+import { ProductsModule } from './products/products.module';
 import { UsersModule } from './users/users.module';
 import { ENV } from './utils/ENV';
-import { ProductsModule } from './products/products.module';
+import { CheckoutModule } from './checkout/checkout.module';
 
 @Module({
   imports: [
@@ -34,8 +37,12 @@ import { ProductsModule } from './products/products.module';
       imports: [ConfigModule],
       inject: [ConfigService],
     }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
+    }),
     AuthModule,
     ProductsModule,
+    CheckoutModule,
   ],
   controllers: [],
   providers: [],

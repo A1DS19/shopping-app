@@ -5,6 +5,9 @@ const envSchema = z.object({
   DATABASE_URL: z.string(),
   JWT_SECRET: z.string(),
   JWT_EXPIRES_IN_HOURS: z.string().default('10h'),
+  STRIPE_SECRET_KEY: z.string(),
+  STRIPE_SUCCESS_URL: z.string(),
+  STRIPE_CANCEL_URL: z.string(),
 });
 
 const result = envSchema.safeParse(process.env);

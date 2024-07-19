@@ -25,7 +25,7 @@ export default async function RootLayout({ children }: ComponentWithChildren) {
       <body className={inter.className}>
         <Providers authenticated={isAuthenticated}>
           <Header logout={logout} />
-          <Container>{children}</Container>
+          <Container className={isAuthenticated ? 'mt-10' : ''}>{children}</Container>
         </Providers>
       </body>
     </html>
