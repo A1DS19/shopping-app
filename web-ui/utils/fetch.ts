@@ -28,8 +28,9 @@ export const post = async (path: string, data: FormData | object) => {
   return { error: '', data: parsedRes }
 }
 
-export const get = async <T>(path: string, tags?: string[]) => {
-  const response = await fetch(`${env.API_URL}/${path}`, {
+export const get = async <T>(path: string, tags?: string[], params?: URLSearchParams) => {
+  const url = params ? `${env.API_URL}/${path}?${params.toString()}` : `${env.API_URL}/${path}`
+  const response = await fetch(url, {
     headers: {
       ...getHeaders()
     },

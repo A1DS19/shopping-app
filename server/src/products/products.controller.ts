@@ -7,6 +7,7 @@ import {
   Param,
   ParseFilePipe,
   Post,
+  Query,
   UnsupportedMediaTypeException,
   UploadedFile,
   UseGuards,
@@ -35,8 +36,8 @@ export class ProductsController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  async findAll() {
-    return await this.productsService.findAll();
+  async findAll(@Query('status') status: string) {
+    return await this.productsService.findAll(status);
   }
 
   @UseGuards(JwtAuthGuard)

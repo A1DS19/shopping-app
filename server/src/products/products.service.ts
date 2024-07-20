@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { promises as fs } from 'fs';
 import { join } from 'path';
 import { TokenPayload } from 'src/auth/types/token.payload.interface';
@@ -19,8 +20,15 @@ export class ProductsService {
     });
   }
 
-  async findAll() {
-    const products = await this.prismaService.product.findMany();
+  async findAll(status?: string) {
+    const args: Prisma.ProductFindManyArgs = {};
+    if (status === 'available') {
+      args.where = {
+        sold: false,
+      };
+    }
+
+    const products = await this.prismaService.product.findMany(args);
     return Promise.all(
       products.map(async (product) => ({
         ...product,
