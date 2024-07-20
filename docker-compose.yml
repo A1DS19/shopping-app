@@ -13,6 +13,8 @@ services:
       - db-data:/var/lib/postgresql/data
     ports:
       - "5433:5432"
+    networks:
+      - app-network
 
   server:
     build:
@@ -30,6 +32,8 @@ services:
       - ./server:/usr/src/app
       - ./server/node_modules:/usr/src/app/node_modules
       - ./server/.env:/usr/src/app/.env
+    networks:
+      - app-network
 
   web-ui:
     build:
@@ -44,6 +48,12 @@ services:
     volumes:
       - ./web-ui:/usr/src/app
       - ./web-ui/node_modules:/usr/src/app/node_modules
+    networks:
+      - app-network
 
 volumes:
   db-data:
+
+networks:
+  app-network:
+    driver: bridge

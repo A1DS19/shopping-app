@@ -17,7 +17,7 @@ export function Product({ product }: IProductProps) {
           <Typography variant='h4'>{product.name}</Typography>
           {product.imageExists && (
             <Image
-              src={`${env.API_URL}/images/products/${product.id}.jpg`}
+              src={`http://server:3001/images/products/${product.id}.jpg`}
               alt={product.name}
               width={0}
               height={0}

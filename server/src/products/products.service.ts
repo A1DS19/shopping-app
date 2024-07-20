@@ -7,17 +7,24 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 import { PRODUCT_IMAGES_PATH } from './constants/product-images';
 import { CreateProductRequestDto } from './dto/create-product-request.dto';
+import { ProductsGateway } from './products.gateway';
 
 @Injectable()
 export class ProductsService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly productsGateway: ProductsGateway,
+  ) {}
   async create(user: TokenPayload, body: CreateProductRequestDto) {
-    return this.prismaService.product.create({
+    const product = await this.prismaService.product.create({
       data: {
         ...body,
         userId: user.userId,
       },
     });
+
+    this.productsGateway.handleProductUpdated();
+    return product;
   }
 
   async findAll(status?: string) {
@@ -63,6 +70,7 @@ export class ProductsService {
   }
 
   update(id: number) {
+    this.productsGateway.handleProductUpdated();
     return `This action updates a #${id} product`;
   }
 
